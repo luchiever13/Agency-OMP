@@ -255,19 +255,33 @@
 
     <script>
         const KURS = 15500; 
+        
+        // DAFTAR LENGKAP LEVEL A SAMPAI S7
         const masterGaji = [
-            { koin: 5000, lvl: 'A', usd: 2.5 }, { koin: 8000, lvl: 'B', usd: 4.0 },
-            { koin: 13000, lvl: 'C', usd: 6.5 }, { koin: 19000, lvl: 'D', usd: 9.4 },
-            { koin: 27000, lvl: 'E', usd: 13.2 }, { koin: 37000, lvl: 'F', usd: 18.0 },
-            { koin: 52000, lvl: 'G', usd: 25.1 }, { koin: 67000, lvl: 'H', usd: 32.1 },
-            { koin: 88000, lvl: 'I', usd: 42.0 }, { koin: 110350, lvl: 'J', usd: 52.1 },
-            { koin: 135000, lvl: 'K', usd: 63.0 }, { koin: 165000, lvl: 'L', usd: 76.0 },
-            { koin: 195000, lvl: 'M', usd: 89.0 }, { koin: 230000, lvl: 'N', usd: 104.0 },
-            { koin: 270000, lvl: 'O', usd: 121.0 }, { koin: 310000, lvl: 'P', usd: 137.0 },
-            { koin: 360000, lvl: 'Q', usd: 157.0 }, { koin: 400000, lvl: 'S1', usd: 168.0 },
-            { koin: 450000, lvl: 'S2', usd: 180.0 }, { koin: 500000, lvl: 'S3', usd: 195.0 },
-            { koin: 650000, lvl: 'S4', usd: 250.0 }, { koin: 800000, lvl: 'S5', usd: 300.0 },
-            { koin: 950000, lvl: 'S6', usd: 350.0 }, { koin: 1100000, lvl: 'S7', usd: 395.0 }
+            { koin: 5000, lvl: 'A', usd: 2.5 },
+            { koin: 8000, lvl: 'B', usd: 4.0 },
+            { koin: 13000, lvl: 'C', usd: 6.5 },
+            { koin: 19000, lvl: 'D', usd: 9.4 },
+            { koin: 27000, lvl: 'E', usd: 13.2 },
+            { koin: 37000, lvl: 'F', usd: 18.0 },
+            { koin: 52000, lvl: 'G', usd: 25.1 },
+            { koin: 67000, lvl: 'H', usd: 32.1 },
+            { koin: 88000, lvl: 'I', usd: 42.0 },
+            { koin: 110000, lvl: 'J', usd: 52.1 },
+            { koin: 135000, lvl: 'K', usd: 63.0 },
+            { koin: 165000, lvl: 'L', usd: 76.0 },
+            { koin: 195000, lvl: 'M', usd: 89.0 },
+            { koin: 230000, lvl: 'N', usd: 104.0 },
+            { koin: 270000, lvl: 'O', usd: 121.0 },
+            { koin: 310000, lvl: 'P', usd: 137.0 },
+            { koin: 360000, lvl: 'Q', usd: 157.0 },
+            { koin: 400000, lvl: 'S1', usd: 168.0 },
+            { koin: 450000, lvl: 'S2', usd: 180.0 },
+            { koin: 500000, lvl: 'S3', usd: 195.0 },
+            { koin: 650000, lvl: 'S4', usd: 250.0 },
+            { koin: 800000, lvl: 'S5', usd: 300.0 },
+            { koin: 950000, lvl: 'S6', usd: 350.0 },
+            { koin: 1100000, lvl: 'S7', usd: 395.0 }
         ];
 
         let currentData = { lvl: '-', usd: 0 };
@@ -277,6 +291,7 @@
             const kasbon = parseInt(document.getElementById('inputKasbon').value) || 0;
             let hasil = { lvl: '-', usd: 0 };
 
+            // Mencari level tertinggi yang dicapai berdasarkan koin
             for (let i = masterGaji.length - 1; i >= 0; i--) {
                 if (koin >= masterGaji[i].koin) {
                     hasil = masterGaji[i];
@@ -310,6 +325,8 @@
             database.push(entry);
             localStorage.setItem('agencyData', JSON.stringify(database));
             renderTable(database);
+            
+            // Reset form
             ['hostID','hostName','inputKoin','inputKasbon'].forEach(i => document.getElementById(i).value = "");
             hitungGaji();
         }
