@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agency OMP</title>
+    <title>Agency OMP - Salary System</title>
+    
+    <script src="auth.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -25,8 +28,6 @@
         }
 
         /* ═══ EFEK ANIMASI LATAR BELAKANG ═══ */
-        
-        /* 1. Teks Berjalan Metropolis Agency */
         .bg-marquee {
             position: fixed;
             top: 150px;
@@ -49,16 +50,13 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* 2. Hujan Bintang Bergerak */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
                 radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 100px 150px, var(--pink), rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 200px 100px, #fff, rgba(0,0,0,0));
+                radial-gradient(2px 2px at 100px 150px, var(--pink), rgba(0,0,0,0));
             background-size: 250px 250px;
             z-index: -1;
             animation: stars-falling 20s linear infinite;
@@ -82,15 +80,42 @@
 
         .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
         .side-logo { height: 65px; filter: drop-shadow(0 0 10px var(--pink)); }
-        h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--pink); text-shadow: 0 0 10px rgba(255, 45, 117, 0.5); }
+        h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--pink); text-shadow: 0 0 10px rgba(255, 45, 117, 0.5); margin: 0; }
+        .motto { font-style: italic; color: #888; font-size: 14px; margin-top: 10px; }
 
         nav { background: #111; padding: 12px 0; border-bottom: 1px solid #333; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .nav-inner a { color: #888; text-decoration: none; margin: 0 15px; text-transform: uppercase; font-size: 11px; transition: 0.3s; }
+        .nav-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .nav-inner a { color: #888; text-decoration: none; margin: 0 10px; text-transform: uppercase; font-size: 11px; transition: 0.3s; }
         .nav-inner a:hover, .nav-inner a.active { color: var(--pink); font-weight: bold; }
 
-        /* ═══ FORM INPUT (HORIZONTAL GRID) ═══ */
+        /* TOMBOL LOGOUT NEON */
+        .btn-logout {
+            color: #ff2d75 !important;
+            font-weight: bold !important;
+            border: 2px solid #ff2d75 !important;
+            padding: 5px 15px !important;
+            border-radius: 20px !important;
+            margin-left: 15px !important;
+            text-shadow: 0 0 5px #ff2d75;
+            box-shadow: 0 0 10px rgba(255, 45, 117, 0.3);
+            transition: all 0.4s ease !important;
+            animation: neon-pulse-btn 2s infinite alternate;
+        }
+
+        .btn-logout:hover {
+            background: #ff2d75 !important;
+            color: #fff !important;
+            box-shadow: 0 0 25px #ff2d75 !important;
+            transform: scale(1.05);
+        }
+
+        @keyframes neon-pulse-btn {
+            from { box-shadow: 0 0 5px rgba(255, 45, 117, 0.4); }
+            to { box-shadow: 0 0 15px rgba(255, 45, 117, 0.8); }
+        }
+
+        /* ═══ FORM INPUT ═══ */
         main { padding: 40px 20px; max-width: 1200px; margin: auto; position: relative; z-index: 5; }
-        
         .section-title { font-family: 'Playfair Display', serif; font-size: 28px; text-align: center; color: var(--pink); margin-bottom: 30px; text-transform: uppercase; }
 
         .card {
@@ -103,7 +128,6 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Grid Horizontal */
         .grid-horizontal { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
@@ -112,53 +136,37 @@
         }
 
         .form-group label { display: block; font-size: 11px; color: var(--pink); margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
-        
-        input, select {
-            width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff;
-            border-radius: 4px; font-size: 14px; box-sizing: border-box; transition: 0.3s;
-        }
-        
-        /* Animasi Neon saat Focus */
-        input:focus { 
-            border-color: var(--pink); 
-            outline: none; 
-            box-shadow: var(--neon-shadow);
-            animation: neon-pulse 1.5s infinite alternate;
-        }
-
-        @keyframes neon-pulse {
-            from { box-shadow: 0 0 5px rgba(255, 45, 117, 0.4); }
-            to { box-shadow: 0 0 15px rgba(255, 45, 117, 0.8); }
-        }
-
+        input, select { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff; border-radius: 4px; font-size: 14px; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: var(--pink); outline: none; box-shadow: var(--neon-shadow); }
         .readonly-box { background: #050505; color: #ffeb3b; border-style: dashed; }
 
         .btn-submit {
-            grid-column: span 4; /* Tombol memanjang di bawah grid */
+            grid-column: span 4;
             padding: 18px; background: transparent; color: var(--pink);
             border: 2px solid var(--pink); border-radius: 6px; font-weight: bold;
             text-transform: uppercase; cursor: pointer; transition: 0.3s;
         }
-
         .btn-submit:hover { background: var(--pink); color: #fff; box-shadow: 0 0 20px var(--pink); }
 
-        /* ═══ TABLE STYLE ═══ */
-        .table-container { overflow-x: auto; }
+        /* ═══ TABLE ═══ */
+        .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid #333; }
         table { width: 100%; border-collapse: collapse; background: #111; }
-        th { background: #000; color: var(--pink); padding: 12px; border-bottom: 2px solid var(--pink); font-size: 11px; }
-        td { padding: 10px; border-bottom: 1px solid #222; text-align: center; font-size: 13px; color: #ddd; }
+        th { background: #000; color: var(--pink); padding: 15px; border-bottom: 2px solid var(--pink); font-size: 11px; }
+        td { padding: 12px; border-bottom: 1px solid #222; text-align: center; font-size: 13px; color: #ddd; }
+        tr:hover { background: rgba(255, 45, 117, 0.05); }
 
-        /* Responsive Mobile */
+        footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; margin-top: 40px; }
+
         @media (max-width: 768px) {
             .grid-horizontal { grid-template-columns: repeat(2, 1fr); }
             .btn-submit { grid-column: span 2; }
-            .bg-marquee { font-size: 50px; }
+            .bg-marquee { font-size: 40px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-marquee">METROPOLIS AGENCY • METROPOLIS AGENCY • METROPOLIS AGENCY</div>
+    <div class="bg-marquee">METROPOLIS AGENCY • SALARY SYSTEM • METROPOLIS AGENCY</div>
 
     <header>
         <div class="header-content">
@@ -167,7 +175,7 @@
             <img src="logo.png" alt="Logo" class="side-logo">
         </div>
         <div class="motto">"Integrity, Excellence, and Financial Transparency"</div>
-        <div style="color: var(--pink); margin-top: 8px; font-weight: bold;">Owner - Momo OMP</div>
+        <div style="color: var(--pink); margin-top: 8px; font-weight: bold; font-size: 12px;">AUTHORIZED BY: MOMO OMP</div>
     </header>
 
     <nav>
@@ -176,6 +184,7 @@
             <a href="Database.html">Database</a>
             <a href="event.html">Special Send</a>
             <a href="support.html">Contact Support</a>
+            <a href="#" onclick="localStorage.removeItem('isLoggedIn'); location.reload();" class="btn-logout">LOGOUT</a>
         </div>
     </nav>
 
@@ -212,8 +221,8 @@
                     <input type="text" id="resGajiUSD" class="readonly-box" readonly placeholder="0 $">
                 </div>
                 <div class="form-group">
-                    <label>Gaji Bersih (IDR)</label>
-                    <input type="text" id="resTotalIDR" class="readonly-box" style="color: #ff2d75;" readonly placeholder="Rp 0">
+                    <label>Total IDR</label>
+                    <input type="text" id="resTotalIDR" class="readonly-box" style="color: #ff2d75; font-weight: bold;" readonly placeholder="Rp 0">
                 </div>
                 <div class="form-group">
                     <label>Status</label>
@@ -223,16 +232,16 @@
                     </select>
                 </div>
                 
-                <button class="btn-submit" onclick="simpanData()">Submit Data</button>
+                <button class="btn-submit" onclick="simpanData()">Submit to Ledger</button>
             </div>
         </div>
 
-        <div class="section-title">Financial Recap</div>
+        <div class="section-title">Recent Calculations</div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th><th>NAMA</th><th>LVL</th><th>KOIN</th><th>BASE ($)</th><th>GAJI (Rp)</th><th>KASBON</th><th>TOTAL CAIR</th><th>STATUS</th><th>AKSI</th>
+                        <th>ID</th><th>NAMA</th><th>LVL</th><th>KOIN</th><th>BASE ($)</th><th>GAJI (Rp)</th><th>KASBON</th><th>TOTAL</th><th>STATUS</th><th>AKSI</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -241,11 +250,10 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Agency OMP | Authorized Management System</p>
+        <p>&copy; 2026 Agency OMP | Internal Management System</p>
     </footer>
 
     <script>
-        // Logika JavaScript tetap sama seperti kodemu sebelumnya
         const KURS = 15500; 
         const masterGaji = [
             { koin: 5000, lvl: 'A', usd: 2.5 }, { koin: 8000, lvl: 'B', usd: 4.0 },
