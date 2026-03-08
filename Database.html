@@ -1,222 +1,235 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Database Gaji OMP</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --pink: #ff007f; /* Pink Neon Utama */
-      --dark-bg: #0a0a0a; /* Hitam Pekat */
-      --card-bg: #1a1a1a; /* Hitam Kartu */
-      --text: #ffffff;
-    }
-
-    body {
-      background: var(--dark-bg);
-      color: var(--text);
-      font-family: 'EB Garamond', serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* --- Header dengan Logo Kiri & Kanan --- */
-    header {
-      padding: 30px 20px;
-      text-align: center;
-      background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
-      border-bottom: 2px solid var(--pink);
-      box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
-    }
-
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px; /* Jarak antara logo dan teks */
-    }
-
-    .side-logo {
-      height: 60px; /* Ukuran logo samping */
-      width: auto;
-      filter: drop-shadow(0 0 8px var(--pink));
-    }
-
-    h1 { 
-      font-family: 'Playfair Display', serif; 
-      color: var(--pink); 
-      margin: 0; 
-      letter-spacing: 2px; 
-      font-size: 28px; 
-      text-shadow: 0 0 10px var(--pink);
-    }
-
-    .motto { font-style: italic; color: #888; margin-top: 10px; font-size: 14px; }
-
-    nav {
-      background: #111;
-      padding: 12px 0;
-      border-bottom: 1px solid #333;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-inner a {
-      color: #888;
-      text-decoration: none;
-      margin: 0 15px;
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 1px;
-      transition: 0.3s;
-    }
-
-    .nav-inner a:hover { color: var(--pink); }
-    .nav-inner a.active { color: var(--pink); font-weight: bold; border-bottom: 1px solid var(--pink); }
-
-    main { padding: 20px; max-width: 1100px; margin: auto; }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      text-align: center;
-      color: var(--pink);
-      margin: 30px 0;
-      text-transform: uppercase;
-      text-shadow: 0 0 8px rgba(255, 0, 127, 0.4);
-    }
-
-    .table-wrapper {
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid #333;
-      overflow-x: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    th {
-      background: #000;
-      color: var(--pink);
-      padding: 15px 5px;
-      text-transform: uppercase;
-      font-size: 11px;
-      border-bottom: 2px solid var(--pink);
-    }
-
-    td {
-      padding: 12px 5px;
-      border-bottom: 1px solid #222;
-      color: #ddd;
-    }
-
-    tr:nth-child(even) { background: #111; }
-    tr:hover { background: #1a000a; } 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Gaji OMP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
     
-    .lvl-bold { font-weight: bold; color: #00f2ff; text-shadow: 0 0 5px #00f2ff; }
-    .dur-box { color: #fff; font-weight: bold; }
-    .koin-bold { color: #ffeb3b; font-weight: bold; }
-    .usd-highlight { color: #2ecc71; font-weight: bold; }
+    <style>
+        :root {
+            --pink: #ff007f; /* Pink Neon Utama */
+            --dark-bg: #030303; /* Hitam Pekat */
+            --card-bg: rgba(26, 26, 26, 0.9); /* Hitam Kartu Transparan */
+            --text: #ffffff;
+            --neon-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
 
-    footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; margin-top: 40px; }
+        body {
+            background: var(--dark-bg);
+            color: var(--text);
+            font-family: 'EB Garamond', serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-    /* Responsif Mobile */
-    @media (max-width: 600px) {
-      .header-content { gap: 10px; }
-      .side-logo { height: 40px; }
-      h1 { font-size: 20px; }
-    }
-  </style>
-  
-  <script src="auth.js"></script>
+        /* ═══ EFEK ANIMASI LATAR BELAKANG ═══ */
+        
+        /* 1. Teks Berjalan Metropolis Agency */
+        .bg-marquee {
+            position: fixed;
+            top: 200px;
+            left: 0;
+            width: 100%;
+            white-space: nowrap;
+            font-size: 80px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            color: rgba(255, 0, 127, 0.04);
+            text-transform: uppercase;
+            letter-spacing: 20px;
+            pointer-events: none;
+            z-index: -2;
+            animation: move-text 40s linear infinite;
+        }
+
+        @keyframes move-text {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* 2. Hujan Bintang Bergerak */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 100px 150px, var(--pink), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 200px 100px, #fff, rgba(0,0,0,0));
+            background-size: 300px 300px;
+            z-index: -1;
+            animation: stars-falling 25s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes stars-falling {
+            from { transform: translateY(0); }
+            to { transform: translateY(1000px); }
+        }
+
+        /* ═══ HEADER & NAV ═══ */
+        header {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+            border-bottom: 2px solid var(--pink);
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
+            position: relative; z-index: 10;
+        }
+
+        .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .side-logo { height: 60px; filter: drop-shadow(0 0 8px var(--pink)); }
+        h1 { font-family: 'Playfair Display', serif; color: var(--pink); margin: 0; letter-spacing: 2px; font-size: 28px; text-shadow: 0 0 10px var(--pink); }
+
+        nav { background: #111; padding: 12px 0; border-bottom: 1px solid #333; text-align: center; position: sticky; top: 0; z-index: 100; }
+        .nav-inner a { color: #888; text-decoration: none; margin: 0 15px; text-transform: uppercase; font-size: 11px; transition: 0.3s; }
+        .nav-inner a:hover, .nav-inner a.active { color: var(--pink); font-weight: bold; border-bottom: 1px solid var(--pink); }
+
+        /* ═══ MAIN CONTENT ═══ */
+        main { padding: 20px; max-width: 1100px; margin: auto; position: relative; z-index: 5; }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            text-align: center;
+            color: var(--pink);
+            margin: 30px 0;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.4);
+        }
+
+        .table-wrapper {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid #333;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; }
+
+        th {
+            background: #000;
+            color: var(--pink);
+            padding: 15px 5px;
+            text-transform: uppercase;
+            font-size: 11px;
+            border-bottom: 2px solid var(--pink);
+        }
+
+        td {
+            padding: 12px 5px;
+            border-bottom: 1px solid #222;
+            color: #ddd;
+            transition: 0.3s;
+        }
+
+        tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+        
+        /* Animasi Glow pada Baris saat Hover */
+        tr:hover td { 
+            background: rgba(255, 0, 127, 0.1); 
+            color: #fff;
+            text-shadow: 0 0 5px var(--pink);
+        }
+
+        .lvl-bold { font-weight: bold; color: #00f2ff; text-shadow: 0 0 5px #00f2ff; }
+        .dur-box { color: #fff; font-weight: bold; }
+        .koin-bold { color: #ffeb3b; font-weight: bold; }
+        .usd-highlight { color: #2ecc71; font-weight: bold; }
+
+        footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; margin-top: 40px; }
+
+        /* Responsif Mobile */
+        @media (max-width: 600px) {
+            .header-content { gap: 10px; }
+            .side-logo { height: 40px; }
+            h1 { font-size: 20px; }
+            .bg-marquee { font-size: 50px; }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-content">
-      <img src="logo.png" alt="Logo" class="side-logo">
-      
-      <h1>AGENCY OMP</h1>
-      
-      <img src="logo.png" alt="Logo" class="side-logo">
-    </div>
-    <div class="motto">"Owner - Momo OMP"</div>
-  </header>
+    <div class="bg-marquee">METROPOLIS AGENCY • METROPOLIS AGENCY • METROPOLIS AGENCY</div>
 
-  <nav>
-    <div class="nav-inner">
-      <a href="index.html">Salary Calculator</a>
-      <a href="Database.html" class="active">Database Gaji</a>
-      <a href="event.html">Special Send</a>
-      <a href="support.html">Contact Support</a>
-    </div>
-  </nav>
+    <header>
+        <div class="header-content">
+            <img src="logo.png" alt="Logo" class="side-logo">
+            <h1>AGENCY OMP</h1>
+            <img src="logo.png" alt="Logo" class="side-logo">
+        </div>
+        <div class="motto">"Owner - Momo OMP"</div>
+    </header>
 
-  <main>
-    <div class="section-title">Reference: Target & Valid Duration</div>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html">Salary Calculator</a>
+            <a href="Database.html" class="active">Database Gaji</a>
+            <a href="event.html">Special Send</a>
+            <a href="support.html">Contact Support</a>
+        </div>
+    </nav>
 
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Level</th>
-            <th>Hari</th>
-            <th>Jam</th>
-            <th>Target Koin</th>
-            <th>Gaji Host ($)</th>
-            <th>Bonus Agency</th>
-            <th>Bonus YoYo</th>
-          </tr>
-        </thead>
-        <tbody id="masterTableBody"></tbody>
-      </table>
-    </div>
-  </main>
+    <main>
+        <div class="section-title">Reference: Target & Valid Duration</div>
 
-  <footer>
-    <p>&copy; 2026 Agency OMP | Internal Reference Database</p>
-  </footer>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Target Koin</th>
+                        <th>Gaji Host ($)</th>
+                        <th>Bonus Agency</th>
+                        <th>Bonus YoYo</th>
+                    </tr>
+                </thead>
+                <tbody id="masterTableBody"></tbody>
+            </table>
+        </div>
+    </main>
 
-  <script>
-    const DATA_MASTER = [
-        {lvl:"A", h:8, j:16, t:"5.000", usd:"2.5", bAF:"-", bY:"-"},
-        {lvl:"B", h:8, j:16, t:"8.000", usd:"4.0", bAF:"-", bY:"-"},
-        {lvl:"C", h:8, j:16, t:"13.000", usd:"6.5", bAF:"-", bY:"-"},
-        {lvl:"D", h:8, j:16, t:"19.000", usd:"9.4", bAF:"-", bY:"-"},
-        {lvl:"E", h:8, j:16, t:"27.000", usd:"13.2", bAF:"-", bY:"-"},
-        {lvl:"F", h:8, j:16, t:"37.000", usd:"18.0", bAF:"-", bY:"-"},
-        {lvl:"G", h:8, j:16, t:"52.000", usd:"25.1", bAF:"-", bY:"-"},
-        {lvl:"H", h:8, j:16, t:"67.000", usd:"32.1", bAF:"-", bY:"-"},
-        {lvl:"I", h:8, j:16, t:"88.000", usd:"42.0", bAF:"750", bY:"-"},
-        {lvl:"J", h:15, j:30, t:"110.350", usd:"52.1", bAF:"1.500", bY:"-"},
-        {lvl:"K", h:15, j:30, t:"135.000", usd:"63.0", bAF:"1.800", bY:"-"},
-        {lvl:"M", h:"-", j:"-", t:"195.000", usd:"89.0", bAF:"2.300", bY:"500"},
-        {lvl:"S1", h:"-", j:"-", t:"400.000", usd:"168.0", bAF:"6.000", bY:"5.000"},
-        {lvl:"S7", h:"-", j:"-", t:"1.100.000", usd:"395.0", bAF:"25.000", bY:"40.000"}
-    ];
+    <footer>
+        <p>&copy; 2026 Agency OMP | Internal Reference Database</p>
+    </footer>
 
-    const tableBody = document.getElementById('masterTableBody');
-    tableBody.innerHTML = DATA_MASTER.map(d => `
-      <tr>
-        <td class="lvl-bold">${d.lvl}</td>
-        <td class="dur-box">${d.h}</td>
-        <td class="dur-box">${d.j}</td>
-        <td class="koin-bold">${d.t}</td>
-        <td class="usd-highlight">$${d.usd}</td>
-        <td>${d.bAF}</td>
-        <td style="color:var(--pink)">${d.bY}</td>
-      </tr>
-    `).join('');
-  </script>
+    <script>
+        const DATA_MASTER = [
+            {lvl:"A", h:8, j:16, t:"5.000", usd:"2.5", bAF:"-", bY:"-"},
+            {lvl:"B", h:8, j:16, t:"8.000", usd:"4.0", bAF:"-", bY:"-"},
+            {lvl:"C", h:8, j:16, t:"13.000", usd:"6.5", bAF:"-", bY:"-"},
+            {lvl:"D", h:8, j:16, t:"19.000", usd:"9.4", bAF:"-", bY:"-"},
+            {lvl:"E", h:8, j:16, t:"27.000", usd:"13.2", bAF:"-", bY:"-"},
+            {lvl:"F", h:8, j:16, t:"37.000", usd:"18.0", bAF:"-", bY:"-"},
+            {lvl:"G", h:8, j:16, t:"52.000", usd:"25.1", bAF:"-", bY:"-"},
+            {lvl:"H", h:8, j:16, t:"67.000", usd:"32.1", bAF:"-", bY:"-"},
+            {lvl:"I", h:8, j:16, t:"88.000", usd:"42.0", bAF:"750", bY:"-"},
+            {lvl:"J", h:15, j:30, t:"110.350", usd:"52.1", bAF:"1.500", bY:"-"},
+            {lvl:"K", h:15, j:30, t:"135.000", usd:"63.0", bAF:"1.800", bY:"-"},
+            {lvl:"M", h:"-", j:"-", t:"195.000", usd:"89.0", bAF:"2.300", bY:"500"},
+            {lvl:"S1", h:"-", j:"-", t:"400.000", usd:"168.0", bAF:"6.000", bY:"5.000"},
+            {lvl:"S7", h:"-", j:"-", t:"1.100.000", usd:"395.0", bAF:"25.000", bY:"40.000"}
+        ];
+
+        const tableBody = document.getElementById('masterTableBody');
+        tableBody.innerHTML = DATA_MASTER.map(d => `
+            <tr>
+                <td class="lvl-bold">${d.lvl}</td>
+                <td class="dur-box">${d.h}</td>
+                <td class="dur-box">${d.j}</td>
+                <td class="koin-bold">${d.t}</td>
+                <td class="usd-highlight">$${d.usd}</td>
+                <td>${d.bAF}</td>
+                <td style="color:var(--pink)">${d.bY}</td>
+            </tr>
+        `).join('');
+    </script>
 </body>
 </html>
