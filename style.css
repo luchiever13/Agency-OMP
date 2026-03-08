@@ -250,3 +250,34 @@ td {
   font-weight: bold; 
   text-shadow: 0 0 5px #00f2ff;
 }
+
+/* ═══ MEMPERBESAR FORM LOGIN DI HP ═══ */
+@media (max-width: 768px) {
+
+body {
+padding: 20px;
+}
+
+.card {
+max-width: 95%;
+margin: auto;
+padding: 30px;
+}
+
+input, select {
+padding: 16px;
+font-size: 16px;
+}
+
+.btn-add {
+padding: 16px;
+font-size: 16px;
+}
+
+}
+
+/* ═══ MEMPERBESAR DI SEMUA LAYAR (OPSIONAL) ═══ */
+.card {
+max-width: 500px;
+margin: auto;
+}
