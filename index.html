@@ -13,18 +13,39 @@
         :root {
             --pink: #ff2d75; 
             --dark-bg: #030303; 
-            --card-bg: rgba(26, 26, 26, 0.9); 
+            --card-bg: rgba(26, 26, 26, 0.85); 
             --text: #ffffff;
             --neon-shadow: 0 0 10px rgba(255, 45, 117, 0.5), 0 0 20px rgba(255, 45, 117, 0.2);
         }
 
         body {
-            background: var(--dark-bg);
+            background: transparent !important; /* Agar video terlihat */
             color: var(--text);
             font-family: 'EB Garamond', serif;
             margin: 0;
             overflow-x: hidden;
             position: relative;
+        }
+
+        /* ═══ VIDEO BACKGROUND ═══ */
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -3;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 3, 3, 0.6); /* Overlay gelap agar teks menyala */
+            z-index: -2;
         }
 
         /* ═══ EFEK ANIMASI LATAR BELAKANG ═══ */
@@ -72,7 +93,7 @@
         header {
             padding: 40px 20px;
             text-align: center;
-            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+            background: linear-gradient(to bottom, rgba(26,26,26,0.9), rgba(10,10,10,0.9));
             border-bottom: 2px solid var(--pink);
             box-shadow: 0 4px 15px rgba(255, 45, 117, 0.3);
             position: relative; z-index: 10;
@@ -83,12 +104,11 @@
         h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--pink); text-shadow: 0 0 10px rgba(255, 45, 117, 0.5); margin: 0; }
         .motto { font-style: italic; color: #888; font-size: 14px; margin-top: 10px; }
 
-        nav { background: #111; padding: 12px 0; border-bottom: 1px solid #333; text-align: center; position: sticky; top: 0; z-index: 100; }
+        nav { background: rgba(17,17,17,0.95); padding: 12px 0; border-bottom: 1px solid #333; text-align: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .nav-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; }
         .nav-inner a { color: #888; text-decoration: none; margin: 0 10px; text-transform: uppercase; font-size: 11px; transition: 0.3s; }
         .nav-inner a:hover, .nav-inner a.active { color: var(--pink); font-weight: bold; }
 
-        /* TOMBOL LOGOUT NEON */
         .btn-logout {
             color: #ff2d75 !important;
             font-weight: bold !important;
@@ -100,13 +120,6 @@
             box-shadow: 0 0 10px rgba(255, 45, 117, 0.3);
             transition: all 0.4s ease !important;
             animation: neon-pulse-btn 2s infinite alternate;
-        }
-
-        .btn-logout:hover {
-            background: #ff2d75 !important;
-            color: #fff !important;
-            box-shadow: 0 0 25px #ff2d75 !important;
-            transform: scale(1.05);
         }
 
         @keyframes neon-pulse-btn {
@@ -125,7 +138,7 @@
             border: 1px solid #333;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             margin-bottom: 40px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
 
         .grid-horizontal { 
@@ -150,21 +163,25 @@
 
         /* ═══ TABLE ═══ */
         .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid #333; }
-        table { width: 100%; border-collapse: collapse; background: #111; }
+        table { width: 100%; border-collapse: collapse; background: rgba(17,17,17,0.9); }
         th { background: #000; color: var(--pink); padding: 15px; border-bottom: 2px solid var(--pink); font-size: 11px; }
         td { padding: 12px; border-bottom: 1px solid #222; text-align: center; font-size: 13px; color: #ddd; }
-        tr:hover { background: rgba(255, 45, 117, 0.05); }
+        tr:hover { background: rgba(255, 45, 117, 0.1); }
 
         footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; margin-top: 40px; }
 
         @media (max-width: 768px) {
             .grid-horizontal { grid-template-columns: repeat(2, 1fr); }
             .btn-submit { grid-column: span 2; }
-            .bg-marquee { font-size: 40px; }
         }
     </style>
 </head>
 <body>
+
+    <video autoplay muted loop playsinline id="bgVideo">
+        <source src="lv_0_20260314151425.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
 
     <div class="bg-marquee">METROPOLIS AGENCY • SALARY SYSTEM • METROPOLIS AGENCY</div>
 
@@ -256,8 +273,9 @@
     <script>
         const KURS = 15500; 
         
-        // DAFTAR LENGKAP LEVEL A SAMPAI S7
+        // DAFTAR LENGKAP LEVEL (DITAMBAHKAN LV 0 AGAR TIDAK KOSONG)
         const masterGaji = [
+            { koin: 0, lvl: 'Training', usd: 0 },
             { koin: 5000, lvl: 'A', usd: 2.5 },
             { koin: 8000, lvl: 'B', usd: 4.0 },
             { koin: 13000, lvl: 'C', usd: 6.5 },
@@ -284,14 +302,13 @@
             { koin: 1100000, lvl: 'S7', usd: 395.0 }
         ];
 
-        let currentData = { lvl: '-', usd: 0 };
+        let currentData = { lvl: 'Training', usd: 0 };
 
         function hitungGaji() {
             const koin = parseInt(document.getElementById('inputKoin').value) || 0;
             const kasbon = parseInt(document.getElementById('inputKasbon').value) || 0;
-            let hasil = { lvl: '-', usd: 0 };
+            let hasil = masterGaji[0];
 
-            // Mencari level tertinggi yang dicapai berdasarkan koin
             for (let i = masterGaji.length - 1; i >= 0; i--) {
                 if (koin >= masterGaji[i].koin) {
                     hasil = masterGaji[i];
@@ -326,7 +343,6 @@
             localStorage.setItem('agencyData', JSON.stringify(database));
             renderTable(database);
             
-            // Reset form
             ['hostID','hostName','inputKoin','inputKasbon'].forEach(i => document.getElementById(i).value = "");
             hitungGaji();
         }
@@ -342,16 +358,18 @@
                     <td>Rp ${item.kotor.toLocaleString()}</td><td style="color:#ff2d75">-Rp ${item.kasbon.toLocaleString()}</td>
                     <td style="color:#00ffcc; font-weight:bold;">Rp ${item.bersih.toLocaleString()}</td>
                     <td style="color:${item.status === 'Done' ? '#00ffcc' : '#ffeb3b'}">${item.status}</td>
-                    <td><button onclick="hapusData(${index})" style="background:none; border:1px solid #ff2d75; color:#ff2d75; border-radius:4px; cursor:pointer;">Hapus</button></td>
+                    <td><button onclick="hapusData(${index})" style="background:none; border:1px solid #ff2d75; color:#ff2d75; border-radius:4px; cursor:pointer; padding: 2px 8px;">Hapus</button></td>
                 `;
             });
         }
 
         function hapusData(index) {
-            let database = JSON.parse(localStorage.getItem('agencyData'));
-            database.splice(index, 1);
-            localStorage.setItem('agencyData', JSON.stringify(database));
-            renderTable(database);
+            if(confirm("Hapus data ini?")) {
+                let database = JSON.parse(localStorage.getItem('agencyData'));
+                database.splice(index, 1);
+                localStorage.setItem('agencyData', JSON.stringify(database));
+                renderTable(database);
+            }
         }
 
         window.onload = function() {
