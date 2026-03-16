@@ -8,9 +8,9 @@
     
     <style>
         :root {
-            --pink: #ff2d75; /* Warna Pink Neon Utama */
-            --dark-bg: #0a0a0a; /* Hitam Pekat */
-            --card-bg: #1a1a1a; /* Hitam Kartu */
+            --pink: #ff2d75;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
             --text: #ffffff;
         }
 
@@ -22,7 +22,6 @@
             line-height: 1.6;
         }
 
-        /* --- Header dengan Logo Kiri & Kanan --- */
         header {
             padding: 40px 20px;
             text-align: center;
@@ -35,11 +34,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px; /* Jarak antara logo dan teks */
+            gap: 20px;
         }
 
         .side-logo {
-            height: 65px; /* Ukuran logo samping */
+            height: 65px;
             width: auto;
             filter: drop-shadow(0 0 10px var(--pink));
         }
@@ -65,6 +64,7 @@
             z-index: 100;
         }
 
+        .nav-inner { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
         .nav-inner a {
             color: #888;
             text-decoration: none;
@@ -77,6 +77,19 @@
 
         .nav-inner a:hover { color: var(--pink); }
         .nav-inner a.active { color: var(--pink); font-weight: bold; border-bottom: 1px solid var(--pink); }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-left: 20px;
+            border-radius: 4px;
+        }
+        .btn-logout:hover { background: #ff4444; color: white; }
 
         main { padding: 40px 20px; max-width: 1200px; margin: auto; }
 
@@ -125,12 +138,13 @@
         th { background: #000; color: var(--pink); padding: 12px; border-bottom: 2px solid var(--pink); font-size: 11px; text-transform: uppercase; }
         td { padding: 10px; border-bottom: 1px solid #222; text-align: center; font-size: 13px; color: #ddd; }
         
-        .btn-delete { background: none; border: 1px solid #ff2d75; color: #ff2d75; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 10px; }
+        .btn-delete { background: none; border: 1px solid #ff2d75; color: #ff2d75; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 10px; margin: 2px;}
         .btn-delete:hover { background: #ff2d75; color: white; }
+        .btn-edit { background: none; border: 1px solid #00ffcc; color: #00ffcc; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 10px; margin: 2px;}
+        .btn-edit:hover { background: #00ffcc; color: black; }
 
         footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; }
 
-        /* Responsif Mobile */
         @media (max-width: 600px) {
             .header-content { gap: 10px; }
             .side-logo { height: 45px; }
@@ -145,9 +159,7 @@
     <header>
         <div class="header-content">
             <img src="logo.png" alt="Logo" class="side-logo">
-            
-            <h1>OFFICIAL METROPOLIS</h1>
-            
+            <h1>AGENCY OMP</h1>
             <img src="logo.png" alt="Logo" class="side-logo">
         </div>
         <div class="motto">"Integrity, Excellence, and Financial Transparency"</div>
@@ -160,6 +172,7 @@
             <a href="Database.html">Database</a>
             <a href="event.html">Special Send</a>
             <a href="support.html">Contact Support</a>
+            <button class="btn-logout" onclick="logout()">Log Out</button>
         </div>
     </nav>
 
@@ -170,19 +183,19 @@
             <div class="grid-4">
                 <div class="form-group">
                     <label>ID Host</label>
-                    <input type="text" id="hostID" placeholder="ID...">
+                    <input type="text" id="hostID" placeholder="ID..." oninput="autoSaveDraft()">
                 </div>
                 <div class="form-group">
                     <label>Nama Host</label>
-                    <input type="text" id="hostName" placeholder="Nama...">
+                    <input type="text" id="hostName" placeholder="Nama..." oninput="autoSaveDraft()">
                 </div>
                 <div class="form-group">
                     <label>Target Koin</label>
-                    <input type="number" id="inputKoin" placeholder="e.g. 88000" oninput="hitungGaji()">
+                    <input type="number" id="inputKoin" placeholder="e.g. 88000" oninput="hitungGaji(); autoSaveDraft()">
                 </div>
                 <div class="form-group">
                     <label>Kasbon (Rp)</label>
-                    <input type="number" id="inputKasbon" placeholder="0" oninput="hitungGaji()">
+                    <input type="number" id="inputKasbon" placeholder="0" oninput="hitungGaji(); autoSaveDraft()">
                 </div>
             </div>
 
@@ -201,17 +214,21 @@
                 </div>
                 <div class="form-group">
                     <label>Status</label>
-                    <select id="status">
+                    <select id="status" onchange="autoSaveDraft()">
                         <option value="Waiting">Waiting</option>
                         <option value="Done">Done</option>
                     </select>
                 </div>
             </div>
 
-            <button class="btn-submit" onclick="simpanData()">Submit Data</button>
+            <button class="btn-submit" id="btnMain" onclick="simpanData()">Submit Data</button>
+            <button class="btn-submit" id="btnCancelEdit" style="display:none; margin-top:10px; border-color:#555; color:#555;" onclick="cancelEdit()">Cancel Edit</button>
         </div>
 
         <div class="section-title">Financial Recap</div>
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button class="btn-edit" onclick="downloadBackup()">Download Backup Data</button>
+        </div>
         <div class="table-container">
             <table id="rekapTable">
                 <thead>
@@ -266,14 +283,43 @@
             { koin: 1100000, lvl: 'S7', usd: 395.0 }
         ];
 
+        let editIndex = -1;
         let currentData = { lvl: '-', usd: 0 };
 
         window.onload = function() {
-            const saved = localStorage.getItem('agencyData');
-            if (saved) {
-                renderTable(JSON.parse(saved));
-            }
+            loadTable();
+            loadDraft();
         };
+
+        function logout() {
+            if(confirm("Apakah anda ingin Log Out?")) {
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = "login.html";
+            }
+        }
+
+        function autoSaveDraft() {
+            const draft = {
+                id: document.getElementById('hostID').value,
+                nama: document.getElementById('hostName').value,
+                koin: document.getElementById('inputKoin').value,
+                kasbon: document.getElementById('inputKasbon').value,
+                status: document.getElementById('status').value
+            };
+            localStorage.setItem('agencyDraft', JSON.stringify(draft));
+        }
+
+        function loadDraft() {
+            const draft = JSON.parse(localStorage.getItem('agencyDraft'));
+            if(draft && editIndex === -1) {
+                document.getElementById('hostID').value = draft.id;
+                document.getElementById('hostName').value = draft.nama;
+                document.getElementById('inputKoin').value = draft.koin;
+                document.getElementById('inputKasbon').value = draft.kasbon;
+                document.getElementById('status').value = draft.status;
+                hitungGaji();
+            }
+        }
 
         function hitungGaji() {
             const koin = parseInt(document.getElementById('inputKoin').value) || 0;
@@ -311,18 +357,28 @@
             const entry = { id, nama, lvl: currentData.lvl, koin, usd: currentData.usd, kotor: gajiKotor, kasbon, bersih: totalCair, status };
             
             let database = JSON.parse(localStorage.getItem('agencyData') || '[]');
-            database.push(entry);
+            
+            if(editIndex === -1) {
+                database.push(entry);
+            } else {
+                database[editIndex] = entry;
+                editIndex = -1;
+                document.getElementById('btnMain').innerText = "Submit Data";
+                document.getElementById('btnCancelEdit').style.display = "none";
+            }
+
             localStorage.setItem('agencyData', JSON.stringify(database));
+            localStorage.removeItem('agencyDraft');
             
             renderTable(database);
-            ['hostID','hostName','inputKoin','inputKasbon'].forEach(i => document.getElementById(i).value = "");
-            hitungGaji(); // Reset tampilan
+            resetForm();
         }
 
         function renderTable(data) {
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = "";
             data.forEach((item, index) => {
+                const isDone = item.status === 'Done';
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${item.id}</td>
@@ -333,10 +389,45 @@
                     <td>Rp ${item.kotor.toLocaleString()}</td>
                     <td style="color:#ff2d75">-Rp ${item.kasbon.toLocaleString()}</td>
                     <td style="color:#00ffcc; font-weight:bold;">Rp ${item.bersih.toLocaleString()}</td>
-                    <td style="color:${item.status === 'Done' ? '#00ffcc' : '#ffeb3b'}">${item.status}</td>
-                    <td><button class="btn-delete" onclick="hapusData(${index})">Hapus</button></td>
+                    <td style="color:${isDone ? '#00ffcc' : '#ffeb3b'}">${item.status}</td>
+                    <td>
+                        ${!isDone ? `<button class="btn-edit" onclick="editData(${index})">Edit</button>` : ''}
+                        <button class="btn-delete" onclick="hapusData(${index})">Hapus</button>
+                    </td>
                 `;
             });
+        }
+
+        function editData(index) {
+            let database = JSON.parse(localStorage.getItem('agencyData'));
+            const item = database[index];
+            
+            if(item.status === 'Done') return alert("Data status 'Done' tidak bisa diedit!");
+
+            document.getElementById('hostID').value = item.id;
+            document.getElementById('hostName').value = item.nama;
+            document.getElementById('inputKoin').value = item.koin;
+            document.getElementById('inputKasbon').value = item.kasbon;
+            document.getElementById('status').value = item.status;
+            
+            editIndex = index;
+            document.getElementById('btnMain').innerText = "Update Data";
+            document.getElementById('btnCancelEdit').style.display = "block";
+            hitungGaji();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function cancelEdit() {
+            editIndex = -1;
+            document.getElementById('btnMain').innerText = "Submit Data";
+            document.getElementById('btnCancelEdit').style.display = "none";
+            resetForm();
+        }
+
+        function resetForm() {
+            ['hostID','hostName','inputKoin','inputKasbon'].forEach(i => document.getElementById(i).value = "");
+            document.getElementById('status').value = "Waiting";
+            hitungGaji();
         }
 
         function hapusData(index) {
@@ -346,6 +437,22 @@
                 localStorage.setItem('agencyData', JSON.stringify(database));
                 renderTable(database);
             }
+        }
+
+        function loadTable() {
+            const saved = localStorage.getItem('agencyData');
+            if (saved) renderTable(JSON.parse(saved));
+        }
+
+        function downloadBackup() {
+            const data = localStorage.getItem('agencyData');
+            if(!data) return alert("Tidak ada data untuk di backup");
+            const blob = new Blob([data], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_gaji_omp_${new Date().toLocaleDateString()}.json`;
+            a.click();
         }
     </script>
 </body>
