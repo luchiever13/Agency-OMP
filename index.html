@@ -1,363 +1,352 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
-    <title>Agency OMP - Salary System</title>
-    
-    <script src="auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency OMP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pink: #ff2d75; /* Warna Pink Neon Utama */
+            --dark-bg: #0a0a0a; /* Hitam Pekat */
+            --card-bg: #1a1a1a; /* Hitam Kartu */
+            --text: #ffffff;
+        }
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --pink: #ff2d75; 
-            --dark-bg: #030303; 
-            --card-bg: rgba(26, 26, 26, 0.9); 
-            --text: #ffffff;
-            --neon-shadow: 0 0 10px rgba(255, 45, 117, 0.5), 0 0 20px rgba(255, 45, 117, 0.2);
-        }
+        body {
+            background: var(--dark-bg);
+            color: var(--text);
+            font-family: 'EB Garamond', serif;
+            margin: 0;
+            line-height: 1.6;
+        }
 
-        body {
-            background: var(--dark-bg);
-            color: var(--text);
-            font-family: 'EB Garamond', serif;
-            margin: 0;
-            overflow-x: hidden;
-            position: relative;
-        }
+        /* --- Header dengan Logo Kiri & Kanan --- */
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+            border-bottom: 2px solid var(--pink);
+            box-shadow: 0 4px 15px rgba(255, 45, 117, 0.3);
+        }
 
-        /* ═══ EFEK ANIMASI LATAR BELAKANG ═══ */
-        .bg-marquee {
-            position: fixed;
-            top: 150px;
-            left: 0;
-            width: 100%;
-            white-space: nowrap;
-            font-size: 80px;
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
-            color: rgba(255, 45, 117, 0.04);
-            text-transform: uppercase;
-            letter-spacing: 20px;
-            pointer-events: none;
-            z-index: -2;
-            animation: move-text 30s linear infinite;
-        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Jarak antara logo dan teks */
+        }
 
-        @keyframes move-text {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
+        .side-logo {
+            height: 65px; /* Ukuran logo samping */
+            width: auto;
+            filter: drop-shadow(0 0 10px var(--pink));
+        }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 100px 150px, var(--pink), rgba(0,0,0,0));
-            background-size: 250px 250px;
-            z-index: -1;
-            animation: stars-falling 20s linear infinite;
-            opacity: 0.3;
-        }
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 32px; 
+            letter-spacing: 3px; 
+            margin: 0; 
+            color: var(--pink); 
+            text-shadow: 0 0 10px rgba(255, 45, 117, 0.5);
+        }
 
-        @keyframes stars-falling {
-            from { transform: translateY(0); }
-            to { transform: translateY(1000px); }
-        }
+        .motto { font-style: italic; color: #aaa; margin-top: 10px; }
 
-        /* ═══ HEADER & NAV ═══ */
-        header {
-            padding: 40px 20px;
-            text-align: center;
-            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
-            border-bottom: 2px solid var(--pink);
-            box-shadow: 0 4px 15px rgba(255, 45, 117, 0.3);
-            position: relative; z-index: 10;
-        }
+        nav {
+            background: #111;
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-        .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
-        .side-logo { height: 65px; filter: drop-shadow(0 0 10px var(--pink)); }
-        h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--pink); text-shadow: 0 0 10px rgba(255, 45, 117, 0.5); margin: 0; }
-        .motto { font-style: italic; color: #888; font-size: 14px; margin-top: 10px; }
+        .nav-inner a {
+            color: #888;
+            text-decoration: none;
+            margin: 0 15px;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
 
-        nav { background: #111; padding: 12px 0; border-bottom: 1px solid #333; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .nav-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; }
-        .nav-inner a { color: #888; text-decoration: none; margin: 0 10px; text-transform: uppercase; font-size: 11px; transition: 0.3s; }
-        .nav-inner a:hover, .nav-inner a.active { color: var(--pink); font-weight: bold; }
+        .nav-inner a:hover { color: var(--pink); }
+        .nav-inner a.active { color: var(--pink); font-weight: bold; border-bottom: 1px solid var(--pink); }
 
-        /* TOMBOL LOGOUT NEON */
-        .btn-logout {
-            color: #ff2d75 !important;
-            font-weight: bold !important;
-            border: 2px solid #ff2d75 !important;
-            padding: 5px 15px !important;
-            border-radius: 20px !important;
-            margin-left: 15px !important;
-            text-shadow: 0 0 5px #ff2d75;
-            box-shadow: 0 0 10px rgba(255, 45, 117, 0.3);
-            transition: all 0.4s ease !important;
-            animation: neon-pulse-btn 2s infinite alternate;
-        }
+        main { padding: 40px 20px; max-width: 1200px; margin: auto; }
 
-        .btn-logout:hover {
-            background: #ff2d75 !important;
-            color: #fff !important;
-            box-shadow: 0 0 25px #ff2d75 !important;
-            transform: scale(1.05);
-        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            text-align: center;
+            color: var(--pink);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(255, 45, 117, 0.5);
+        }
 
-        @keyframes neon-pulse-btn {
-            from { box-shadow: 0 0 5px rgba(255, 45, 117, 0.4); }
-            to { box-shadow: 0 0 15px rgba(255, 45, 117, 0.8); }
-        }
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            margin-bottom: 40px;
+        }
 
-        /* ═══ FORM INPUT ═══ */
-        main { padding: 40px 20px; max-width: 1200px; margin: auto; position: relative; z-index: 5; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 28px; text-align: center; color: var(--pink); margin-bottom: 30px; text-transform: uppercase; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; color: var(--pink); margin-bottom: 8px; font-weight: bold; }
+        
+        input, select {
+            width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff;
+            border-radius: 4px; font-family: 'EB Garamond', serif; font-size: 16px; box-sizing: border-box;
+        }
+        
+        input:focus { border-color: var(--pink); outline: none; box-shadow: 0 0 8px rgba(255, 45, 117, 0.4); }
 
-        .card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            margin-bottom: 40px;
-            backdrop-filter: blur(5px);
-        }
+        .readonly-box { background: #111; color: #ffeb3b; font-weight: bold; border-style: dashed; border-color: #555; }
 
-        .grid-horizontal { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 15px; 
-            margin-bottom: 15px; 
-        }
+        .btn-submit {
+            width: 100%; padding: 18px; background: transparent; color: var(--pink);
+            border: 2px solid var(--pink); border-radius: 6px; font-weight: bold;
+            text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: 'Playfair Display', serif;
+            font-size: 16px;
+        }
 
-        .form-group label { display: block; font-size: 11px; color: var(--pink); margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
-        input, select { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff; border-radius: 4px; font-size: 14px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--pink); outline: none; box-shadow: var(--neon-shadow); }
-        .readonly-box { background: #050505; color: #ffeb3b; border-style: dashed; }
+        .btn-submit:hover { background: var(--pink); color: #fff; box-shadow: 0 0 20px var(--pink); }
 
-        .btn-submit {
-            grid-column: span 4;
-            padding: 18px; background: transparent; color: var(--pink);
-            border: 2px solid var(--pink); border-radius: 6px; font-weight: bold;
-            text-transform: uppercase; cursor: pointer; transition: 0.3s;
-        }
-        .btn-submit:hover { background: var(--pink); color: #fff; box-shadow: 0 0 20px var(--pink); }
+        .table-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; background: #111; border: 1px solid #333; }
+        th { background: #000; color: var(--pink); padding: 12px; border-bottom: 2px solid var(--pink); font-size: 11px; text-transform: uppercase; }
+        td { padding: 10px; border-bottom: 1px solid #222; text-align: center; font-size: 13px; color: #ddd; }
+        
+        .btn-delete { background: none; border: 1px solid #ff2d75; color: #ff2d75; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 10px; }
+        .btn-delete:hover { background: #ff2d75; color: white; }
 
-        /* ═══ TABLE ═══ */
-        .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid #333; }
-        table { width: 100%; border-collapse: collapse; background: #111; }
-        th { background: #000; color: var(--pink); padding: 15px; border-bottom: 2px solid var(--pink); font-size: 11px; }
-        td { padding: 12px; border-bottom: 1px solid #222; text-align: center; font-size: 13px; color: #ddd; }
-        tr:hover { background: rgba(255, 45, 117, 0.05); }
+        footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; }
 
-        footer { text-align: center; padding: 40px; color: #555; font-size: 12px; border-top: 1px solid #222; margin-top: 40px; }
-
-        @media (max-width: 768px) {
-            .grid-horizontal { grid-template-columns: repeat(2, 1fr); }
-            .btn-submit { grid-column: span 2; }
-            .bg-marquee { font-size: 40px; }
-        }
-    </style>
+        /* Responsif Mobile */
+        @media (max-width: 600px) {
+            .header-content { gap: 10px; }
+            .side-logo { height: 45px; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+    
+    <script src="auth.js"></script>
 </head>
 <body>
 
-    <div class="bg-marquee">METROPOLIS AGENCY • SALARY SYSTEM • METROPOLIS AGENCY</div>
+    <header>
+        <div class="header-content">
+            <img src="logo.png" alt="Logo" class="side-logo">
+            
+            <h1>OFFICIAL METROPOLIS</h1>
+            
+            <img src="logo.png" alt="Logo" class="side-logo">
+        </div>
+        <div class="motto">"Integrity, Excellence, and Financial Transparency"</div>
+        <div style="color: var(--pink); margin-top: 8px; font-weight: bold;">Owner - Momo OMP</div>
+    </header>
 
-    <header>
-        <div class="header-content">
-            <img src="logo.png" alt="Logo" class="side-logo">
-            <h1>AGENCY OMP</h1>
-            <img src="logo.png" alt="Logo" class="side-logo">
-        </div>
-        <div class="motto">"Integrity, Excellence, and Financial Transparency"</div>
-        <div style="color: var(--pink); margin-top: 8px; font-weight: bold; font-size: 12px;">AUTHORIZED BY: MOMO OMP</div>
-    </header>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="active">Salary Calculator</a>
+            <a href="Database.html">Database</a>
+            <a href="event.html">Special Send</a>
+            <a href="support.html">Contact Support</a>
+        </div>
+    </nav>
 
-    <nav>
-        <div class="nav-inner">
-            <a href="index.html" class="active">Salary Calculator</a>
-            <a href="Database.html">Database</a>
-            <a href="event.html">Special Send</a>
-            <a href="support.html">Contact Support</a>
-            <a href="#" onclick="localStorage.removeItem('isLoggedIn'); location.reload();" class="btn-logout">LOGOUT</a>
-        </div>
-    </nav>
+    <main>
+        <div class="section-title">Financial Input System</div>
 
-    <main>
-        <div class="section-title">Financial Input System</div>
+        <div class="card">
+            <div class="grid-4">
+                <div class="form-group">
+                    <label>ID Host</label>
+                    <input type="text" id="hostID" placeholder="ID...">
+                </div>
+                <div class="form-group">
+                    <label>Nama Host</label>
+                    <input type="text" id="hostName" placeholder="Nama...">
+                </div>
+                <div class="form-group">
+                    <label>Target Koin</label>
+                    <input type="number" id="inputKoin" placeholder="e.g. 88000" oninput="hitungGaji()">
+                </div>
+                <div class="form-group">
+                    <label>Kasbon (Rp)</label>
+                    <input type="number" id="inputKasbon" placeholder="0" oninput="hitungGaji()">
+                </div>
+            </div>
 
-        <div class="card">
-            <div class="grid-horizontal">
-                <div class="form-group">
-                    <label>ID Host</label>
-                    <input type="text" id="hostID" placeholder="ID...">
-                </div>
-                <div class="form-group">
-                    <label>Nama Host</label>
-                    <input type="text" id="hostName" placeholder="Nama...">
-                </div>
-                <div class="form-group">
-                    <label>Target Koin</label>
-                    <input type="number" id="inputKoin" placeholder="e.g. 88000" oninput="hitungGaji()">
-                </div>
-                <div class="form-group">
-                    <label>Kasbon (Rp)</label>
-                    <input type="number" id="inputKasbon" placeholder="0" oninput="hitungGaji()">
-                </div>
-            </div>
+            <div class="grid-4">
+                <div class="form-group">
+                    <label>Level</label>
+                    <input type="text" id="resLevel" class="readonly-box" readonly placeholder="-">
+                </div>
+                <div class="form-group">
+                    <label>Gaji ($)</label>
+                    <input type="text" id="resGajiUSD" class="readonly-box" readonly placeholder="0 $">
+                </div>
+                <div class="form-group">
+                    <label>Gaji Bersih (IDR)</label>
+                    <input type="text" id="resTotalIDR" class="readonly-box" style="color: #ff2d75;" readonly placeholder="Rp 0">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status">
+                        <option value="Waiting">Waiting</option>
+                        <option value="Done">Done</option>
+                    </select>
+                </div>
+            </div>
 
-            <div class="grid-horizontal">
-                <div class="form-group">
-                    <label>Level</label>
-                    <input type="text" id="resLevel" class="readonly-box" readonly placeholder="-">
-                </div>
-                <div class="form-group">
-                    <label>Gaji ($)</label>
-                    <input type="text" id="resGajiUSD" class="readonly-box" readonly placeholder="0 $">
-                </div>
-                <div class="form-group">
-                    <label>Total IDR</label>
-                    <input type="text" id="resTotalIDR" class="readonly-box" style="color: #ff2d75; font-weight: bold;" readonly placeholder="Rp 0">
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select id="status">
-                        <option value="Waiting">Waiting</option>
-                        <option value="Done">Done</option>
-                    </select>
-                </div>
-                
-                <button class="btn-submit" onclick="simpanData()">Submit to Ledger</button>
-            </div>
-        </div>
+            <button class="btn-submit" onclick="simpanData()">Submit Data</button>
+        </div>
 
-        <div class="section-title">Recent Calculations</div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th><th>NAMA</th><th>LVL</th><th>KOIN</th><th>BASE ($)</th><th>GAJI (Rp)</th><th>KASBON</th><th>TOTAL</th><th>STATUS</th><th>AKSI</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
-    </main>
+        <div class="section-title">Financial Recap</div>
+        <div class="table-container">
+            <table id="rekapTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAMA</th>
+                        <th>LVL</th>
+                        <th>KOIN</th>
+                        <th>BASE ($)</th>
+                        <th>GAJI (Rp)</th>
+                        <th>KASBON</th>
+                        <th>TOTAL CAIR</th>
+                        <th>STATUS</th>
+                        <th>AKSI</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </main>
 
-    <footer>
-        <p>&copy; 2026 Agency OMP | Internal Management System</p>
-    </footer>
+    <footer>
+        <p>&copy; 2026 Agency OMP | Authorized Management System</p>
+    </footer>
 
-    <script>
-        const KURS = 15500; 
-        
-        // DAFTAR LENGKAP LEVEL A SAMPAI S7
-        const masterGaji = [
-            { koin: 5000, lvl: 'A', usd: 2.5 },
-            { koin: 8000, lvl: 'B', usd: 4.0 },
-            { koin: 13000, lvl: 'C', usd: 6.5 },
-            { koin: 19000, lvl: 'D', usd: 9.4 },
-            { koin: 27000, lvl: 'E', usd: 13.2 },
-            { koin: 37000, lvl: 'F', usd: 18.0 },
-            { koin: 52000, lvl: 'G', usd: 25.1 },
-            { koin: 67000, lvl: 'H', usd: 32.1 },
-            { koin: 88000, lvl: 'I', usd: 42.0 },
-            { koin: 110000, lvl: 'J', usd: 52.1 },
-            { koin: 135000, lvl: 'K', usd: 63.0 },
-            { koin: 165000, lvl: 'L', usd: 76.0 },
-            { koin: 195000, lvl: 'M', usd: 89.0 },
-            { koin: 230000, lvl: 'N', usd: 104.0 },
-            { koin: 270000, lvl: 'O', usd: 121.0 },
-            { koin: 310000, lvl: 'P', usd: 137.0 },
-            { koin: 360000, lvl: 'Q', usd: 157.0 },
-            { koin: 400000, lvl: 'S1', usd: 168.0 },
-            { koin: 450000, lvl: 'S2', usd: 180.0 },
-            { koin: 500000, lvl: 'S3', usd: 195.0 },
-            { koin: 650000, lvl: 'S4', usd: 250.0 },
-            { koin: 800000, lvl: 'S5', usd: 300.0 },
-            { koin: 950000, lvl: 'S6', usd: 350.0 },
-            { koin: 1100000, lvl: 'S7', usd: 395.0 }
-        ];
+    <script>
+        const KURS = 15500; 
+        const masterGaji = [
+            { koin: 5000, lvl: 'A', usd: 2.5 }, 
+            { koin: 8000, lvl: 'B', usd: 4.0 },
+            { koin: 13000, lvl: 'C', usd: 6.5 }, 
+            { koin: 19000, lvl: 'D', usd: 9.4 },
+            { koin: 27000, lvl: 'E', usd: 13.2 }, 
+            { koin: 37000, lvl: 'F', usd: 18.0 },
+            { koin: 52000, lvl: 'G', usd: 25.1 }, 
+            { koin: 67000, lvl: 'H', usd: 32.1 },
+            { koin: 88000, lvl: 'I', usd: 42.0 }, 
+            { koin: 110350, lvl: 'J', usd: 52.1 },
+            { koin: 135000, lvl: 'K', usd: 63.0 }, 
+            { koin: 165000, lvl: 'L', usd: 76.0 },
+            { koin: 195000, lvl: 'M', usd: 89.0 }, 
+            { koin: 230000, lvl: 'N', usd: 104.0 },
+            { koin: 270000, lvl: 'O', usd: 121.0 }, 
+            { koin: 310000, lvl: 'P', usd: 137.0 },
+            { koin: 360000, lvl: 'Q', usd: 157.0 }, 
+            { koin: 400000, lvl: 'S1', usd: 168.0 },
+            { koin: 450000, lvl: 'S2', usd: 180.0 }, 
+            { koin: 500000, lvl: 'S3', usd: 195.0 },
+            { koin: 650000, lvl: 'S4', usd: 250.0 }, 
+            { koin: 800000, lvl: 'S5', usd: 300.0 },
+            { koin: 950000, lvl: 'S6', usd: 350.0 }, 
+            { koin: 1100000, lvl: 'S7', usd: 395.0 }
+        ];
 
-        let currentData = { lvl: '-', usd: 0 };
+        let currentData = { lvl: '-', usd: 0 };
 
-        function hitungGaji() {
-            const koin = parseInt(document.getElementById('inputKoin').value) || 0;
-            const kasbon = parseInt(document.getElementById('inputKasbon').value) || 0;
-            let hasil = { lvl: '-', usd: 0 };
+        window.onload = function() {
+            const saved = localStorage.getItem('agencyData');
+            if (saved) {
+                renderTable(JSON.parse(saved));
+            }
+        };
 
-            // Mencari level tertinggi yang dicapai berdasarkan koin
-            for (let i = masterGaji.length - 1; i >= 0; i--) {
-                if (koin >= masterGaji[i].koin) {
-                    hasil = masterGaji[i];
-                    break;
-                }
-            }
+        function hitungGaji() {
+            const koin = parseInt(document.getElementById('inputKoin').value) || 0;
+            const kasbon = parseInt(document.getElementById('inputKasbon').value) || 0;
+            let hasil = { lvl: '-', usd: 0 };
 
-            currentData = hasil;
-            const gajiKotor = hasil.usd * KURS;
-            const gajiBersih = gajiKotor - kasbon;
+            for (let i = masterGaji.length - 1; i >= 0; i--) {
+                if (koin >= masterGaji[i].koin) {
+                    hasil = masterGaji[i];
+                    break;
+                }
+            }
 
-            document.getElementById('resLevel').value = hasil.lvl;
-            document.getElementById('resGajiUSD').value = hasil.usd + " $";
-            document.getElementById('resTotalIDR').value = "Rp " + gajiBersih.toLocaleString('id-ID');
-        }
+            currentData = hasil;
+            const gajiKotor = hasil.usd * KURS;
+            const gajiBersih = gajiKotor - kasbon;
 
-        function simpanData() {
-            const id = document.getElementById('hostID').value;
-            const nama = document.getElementById('hostName').value;
-            const koin = document.getElementById('inputKoin').value;
-            const kasbon = parseInt(document.getElementById('inputKasbon').value) || 0;
-            const status = document.getElementById('status').value;
+            document.getElementById('resLevel').value = hasil.lvl;
+            document.getElementById('resGajiUSD').value = hasil.usd + " $";
+            document.getElementById('resTotalIDR').value = "Rp " + gajiBersih.toLocaleString('id-ID');
+        }
 
-            if (!id || !nama || !koin) return alert("Harap isi semua kolom!");
+        function simpanData() {
+            const id = document.getElementById('hostID').value;
+            const nama = document.getElementById('hostName').value;
+            const koin = document.getElementById('inputKoin').value;
+            const kasbon = parseInt(document.getElementById('inputKasbon').value) || 0;
+            const status = document.getElementById('status').value;
 
-            const gajiKotor = currentData.usd * KURS;
-            const totalCair = gajiKotor - kasbon;
+            if (!id || !nama || !koin) return alert("Harap isi semua kolom!");
 
-            const entry = { id, nama, lvl: currentData.lvl, koin, usd: currentData.usd, kotor: gajiKotor, kasbon, bersih: totalCair, status };
-            let database = JSON.parse(localStorage.getItem('agencyData') || '[]');
-            database.push(entry);
-            localStorage.setItem('agencyData', JSON.stringify(database));
-            renderTable(database);
-            
-            // Reset form
-            ['hostID','hostName','inputKoin','inputKasbon'].forEach(i => document.getElementById(i).value = "");
-            hitungGaji();
-        }
+            const gajiKotor = currentData.usd * KURS;
+            const totalCair = gajiKotor - kasbon;
 
-        function renderTable(data) {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = "";
-            data.forEach((item, index) => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${item.id}</td><td>${item.nama}</td><td>${item.lvl}</td>
-                    <td>${parseInt(item.koin).toLocaleString()}</td><td>${item.usd}$</td>
-                    <td>Rp ${item.kotor.toLocaleString()}</td><td style="color:#ff2d75">-Rp ${item.kasbon.toLocaleString()}</td>
-                    <td style="color:#00ffcc; font-weight:bold;">Rp ${item.bersih.toLocaleString()}</td>
-                    <td style="color:${item.status === 'Done' ? '#00ffcc' : '#ffeb3b'}">${item.status}</td>
-                    <td><button onclick="hapusData(${index})" style="background:none; border:1px solid #ff2d75; color:#ff2d75; border-radius:4px; cursor:pointer;">Hapus</button></td>
-                `;
-            });
-        }
+            const entry = { id, nama, lvl: currentData.lvl, koin, usd: currentData.usd, kotor: gajiKotor, kasbon, bersih: totalCair, status };
+            
+            let database = JSON.parse(localStorage.getItem('agencyData') || '[]');
+            database.push(entry);
+            localStorage.setItem('agencyData', JSON.stringify(database));
+            
+            renderTable(database);
+            ['hostID','hostName','inputKoin','inputKasbon'].forEach(i => document.getElementById(i).value = "");
+            hitungGaji(); // Reset tampilan
+        }
 
-        function hapusData(index) {
-            let database = JSON.parse(localStorage.getItem('agencyData'));
-            database.splice(index, 1);
-            localStorage.setItem('agencyData', JSON.stringify(database));
-            renderTable(database);
-        }
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = "";
+            data.forEach((item, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td style="color:#fff">${item.nama}</td>
+                    <td>${item.lvl}</td>
+                    <td>${parseInt(item.koin).toLocaleString()}</td>
+                    <td>${item.usd}$</td>
+                    <td>Rp ${item.kotor.toLocaleString()}</td>
+                    <td style="color:#ff2d75">-Rp ${item.kasbon.toLocaleString()}</td>
+                    <td style="color:#00ffcc; font-weight:bold;">Rp ${item.bersih.toLocaleString()}</td>
+                    <td style="color:${item.status === 'Done' ? '#00ffcc' : '#ffeb3b'}">${item.status}</td>
+                    <td><button class="btn-delete" onclick="hapusData(${index})">Hapus</button></td>
+                `;
+            });
+        }
 
-        window.onload = function() {
-            const saved = localStorage.getItem('agencyData');
-            if (saved) renderTable(JSON.parse(saved));
-        };
-    </script>
+        function hapusData(index) {
+            if(confirm("Hapus data ini?")) {
+                let database = JSON.parse(localStorage.getItem('agencyData'));
+                database.splice(index, 1);
+                localStorage.setItem('agencyData', JSON.stringify(database));
+                renderTable(database);
+            }
+        }
+    </script>
 </body>
 </html>
